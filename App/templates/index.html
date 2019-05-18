@@ -78,7 +78,7 @@
   <script src="./static/json/color.js"></script>
   <!-- <script src="./alert.js"></script> -->
 
-  <script src="./static/json/bg.js"></script>
+  <!-- <script src="./static/json/bg.js"></script> -->
   <script>
     var eAlert = document.getElementById("alert-content");
     var nationDistributedInfo = standard.nationDistributedInfo;
@@ -130,7 +130,8 @@
               value: 2
             },
             symbolSize: function (val) {
-              return val[2] / 100;
+              // return val[2] / 100;
+              return 10;
             },
             showEffectOn: 'render',
             rippleEffect: {

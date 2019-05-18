@@ -18,7 +18,7 @@ def queryAll():
     for nation in nations:
         distributeds = Distributed.query.filter(Distributed.nationId==nation.name).all()
         nationJson={}
-        nationJson['nationName']=nation.name
+        nationJson['nationName'] = nation.name
         nationInfos = []
         for distributed in distributeds:
             nationInfo={}
@@ -26,7 +26,7 @@ def queryAll():
             distributed.population
             value.append(distributed.longitude)
             value.append(distributed.latitude)
-            value.append('1111')
+            value.append(getPerson(nation))
             nationInfo['name'] = distributed.city
             nationInfo['value']=value
             nationInfos.append(nationInfo)
@@ -38,6 +38,14 @@ def queryAll():
     return make_response(jsonify(res))
 
 
+def getPerson(nation):
+    name = nation.name
+    population = nation.population
+    print(name)
+    distributeds = Distributed.query.filter(
+        Distributed.nationId == name).all()
+    num = len(distributeds)
+    return int(population / num)
 
 @nationBlue.route("/nation/createTable", methods=["POST", "GET"])
 def createTable():
