@@ -26,7 +26,7 @@ def queryAll():
             distributed.population
             value.append(distributed.longitude)
             value.append(distributed.latitude)
-            value.append(getPerson(nation))
+            value.append(getPerson(nation, distributeds))
             nationInfo['name'] = distributed.city
             nationInfo['value']=value
             nationInfos.append(nationInfo)
@@ -38,12 +38,9 @@ def queryAll():
     return make_response(jsonify(res))
 
 
-def getPerson(nation):
-    name = nation.name
+# 计算少数民族人数
+def getPerson(nation, distributeds):
     population = nation.population
-    print(name)
-    distributeds = Distributed.query.filter(
-        Distributed.nationId == name).all()
     num = len(distributeds)
     return int(population / num)
 
