@@ -1,3 +1,5 @@
+USE nationality;
+
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('广西壮族自治区', '南宁', '108.33', '22.84', '壮族', NULL, 6619);
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('云南省', '昆明', '102.73', '25.04', '壮族', NULL, 6620);
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('云南省', '文山', '104.24', '23.37', '壮族', NULL, 6621);
@@ -268,7 +270,8 @@ INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationI
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('西藏藏族自治区', '隆子', '92.42', '28.46', '珞巴族', NULL, 6886);
 
 
-USE nationality;
+
+
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (403, '东乡族', 621500, '0.0466%', NULL, '东乡族、东乡族：主要分布甘肃、宁夏、新疆等地，人口62万余人，主要从事农业，善种瓜果。有自己的语言');
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (430, '乌孜别克族', 10569, '0.0008%', NULL, NULL);
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (424, '京族', 28199, '0.0021%', NULL, '京族、京 族：分布广西，人口2.8万余人，主要从事沿海渔业，兼营农业和盐业，有自己的语言。——哈亭，弹奏独弦舞，踩高跷 ');
