@@ -32,6 +32,7 @@
     border-radius: 20px;
     overflow: hidden;
   }
+
   #alert {
     position: relative;
     width: 200px;
@@ -46,7 +47,7 @@
   .alert-text {
     position: absolute;
     bottom: 0;
-    background:rgba(50, 50, 50, 0.5);
+    background: rgba(50, 50, 50, 0.5);
     color: #fff;
   }
 
@@ -54,7 +55,6 @@
     position: absolute;
     width: 100%;
   }
-
 </style>
 
 <body>
@@ -62,8 +62,7 @@
     <div id="main" style="width: 100%;height:600px;"></div>
     <div id="alert-content" style="display: none;">
       <div id="alert">
-        <img class="alert-img" 
-          src="https://imgsa.baidu.com/exp/w=500/sign=f2e6e441fefaaf5184e381bfbc5594ed/960a304e251f95caed35ded1ca177f3e66095290.jpg"
+        <img class="alert-img" src="https://imgsa.baidu.com/exp/w=500/sign=f2e6e441fefaaf5184e381bfbc5594ed/960a304e251f95caed35ded1ca177f3e66095290.jpg"
           alt="">
         <div class="alert-text">首先这里要感谢一下我的公司，因为公司需求上面的新颖(奇葩)的需求，让我有幸可以学习到一些好玩有趣的前端技术，前端技术中好玩而且比较实用的我想应该要数前端的数据可视化这一方面，目前市面上的数据可视化的框架琳琅满目，例如：D3.js、hightcharts.js</div>
       </div>
@@ -83,7 +82,7 @@
     var eAlert = document.getElementById("alert-content");
     var nationDistributedInfo = standard.nationDistributedInfo;
     var myChart = echarts.init(document.getElementById('main'));
-    var nationDistributedInfoSettingArr = [];
+
 
     // ajax切面
     function ajax(param) {
@@ -108,17 +107,41 @@
 
     ajax({
       url: '/nation/queryAll',
-      success: function(data) {
-        // debugger;
-        // console.log(data);
+      success: function (data) {
         nationDistributedInfo = data.nationDistributedInfo;
-         myChart.setOption({
+        myChart.setOption({
           series: [{
             type: 'map',
             map: 'china'
           }]
         });
 
+        var nationDistributedInfoSettingArr = [{
+          type: 'pie',
+          radius: '100',
+          center: ['200', '50%'],
+          data: (function(nations) {
+            return nations.map(function(item) {
+              return {
+                name: item.nationName,
+                value: (function(data) {
+                  var num = 0;
+                  data.forEach(function(i) {
+                    num += i.value[2];
+                  });
+                  return num;
+                })(item.data)
+              }
+            });
+          })(nationDistributedInfo), 
+          itemStyle: {
+            emphasis: {
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          }
+        }];
 
         for (var i = 0; i < nationDistributedInfo.length; i++) {
           nationDistributedInfoSettingArr.push({
@@ -130,8 +153,7 @@
               value: 2
             },
             symbolSize: function (val) {
-              // return val[2] / 100;
-              return 10;
+              return Math.log(val[2]);
             },
             showEffectOn: 'render',
             rippleEffect: {
@@ -154,6 +176,7 @@
             },
             zlevel: 1
           });
+
         }
 
 
@@ -173,8 +196,8 @@
         var option = {
           // backgroundColor: "rgb(64, 74, 89, 0.7)",
           title: {
-            text: '中华56民族大观',
-            left: 'center', 
+            text: '中华少数民族分布',
+            left: 'center',
             textStyle: {
               color: '#fff'
             }
@@ -183,7 +206,10 @@
           tooltip: {
             trigger: 'item',
             formatter: function (item) {
-              return item.seriesName + '(' + item.name + ')' + item.value[2] + '人';
+              if (item.componentSubType == "pie") {
+                return item.name + (item.value / 10000).toFixed(2) + '万人(' + item.percent + '%)';
+              }
+              return item.seriesName + '(' + item.name + ')' + (item.value[2] / 10000).toFixed(2) + '万人';
             }
           },
           geo: {
@@ -212,7 +238,7 @@
     });
 
 
-   
+
 
     myChart.on('click', function (params) { //点击事件
       if (params.componentType === 'series') {
