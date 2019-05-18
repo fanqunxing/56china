@@ -268,6 +268,7 @@ INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationI
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('西藏藏族自治区', '隆子', '92.42', '28.46', '珞巴族', NULL, 6886);
 
 
+
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`) VALUES (383, '壮族', 16926381, '1.2700%');
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`) VALUES (384, '回族', 10586087, '0.7943%');
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`) VALUES (385, '满族', 10387958, '0.7794%');
