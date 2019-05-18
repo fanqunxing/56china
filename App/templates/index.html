@@ -64,7 +64,7 @@
       <div id="alert">
         <img class="alert-img" src="https://imgsa.baidu.com/exp/w=500/sign=f2e6e441fefaaf5184e381bfbc5594ed/960a304e251f95caed35ded1ca177f3e66095290.jpg"
           alt="">
-        <div class="alert-text">首先这里要感谢一下我的公司，因为公司需求上面的新颖(奇葩)的需求，让我有幸可以学习到一些好玩有趣的前端技术，前端技术中好玩而且比较实用的我想应该要数前端的数据可视化这一方面，目前市面上的数据可视化的框架琳琅满目，例如：D3.js、hightcharts.js</div>
+        <div class="alert-text" id="alert-text">首先这里要感谢一下我的公司，因为公司需求上面的新颖(奇葩)的需求，让我有幸可以学习到一些好玩有趣的前端技术，前端技术中好玩而且比较实用的我想应该要数前端的数据可视化这一方面，目前市面上的数据可视化的框架琳琅满目，例如：D3.js、hightcharts.js</div>
       </div>
     </div>
   </div>
@@ -249,6 +249,8 @@
           console.log(res)
           var data = res.data;
           console.log(data);
+          $("#alert-text").text(data.desc);
+          $("#alert-text").attr('src', data.img);
         }
       });
     }
@@ -257,7 +259,7 @@
 
 
     myChart.on('click', function (params) { //点击事件
-      if (params.componentType === 'series') {
+      if (params.componentSubType === 'effectScatter') {
         console.log(params);
         var event = params.event;
         var offsetX = event.offsetX;
