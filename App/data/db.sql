@@ -268,6 +268,7 @@ INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationI
 INSERT INTO `distributed` (`province`, `city`, `longitude`, `latitude`, `nationId`, `population`, `id`) VALUES ('西藏藏族自治区', '隆子', '92.42', '28.46', '珞巴族', NULL, 6886);
 
 
+
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (383, '壮族', 16926381, '1.2700%', NULL, '壮族、壮 族：分布在广西、云南等地，人口1692万余人，是中国人口最多的少数民族，“壮锦”享誉海内外，有自己的语言和文字');
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (384, '回族', 10586087, '0.7943%', NULL, '回族、回 族：主要聚居在宁夏、甘肃、新疆等地，其余散居全国各地，人口1058万余人。——摔牛，炸油香 ');
 INSERT INTO `nation` (`id`, `name`, `population`, `percent`, `fileId`, `desc`) VALUES (385, '满族', 10387958, '0.7794%', '3ed3dbb0-797f-11e9-80ee-a0c5890f772d', '满族、满 族：主要分布在黑龙江、吉林、辽宁，人口约1038万余人，主要从事农业，兼营渔牧业，有自己的语言和文字。——穿旗袍，萨满舞，二贵摔跤 ');
