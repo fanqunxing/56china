@@ -34,8 +34,9 @@ class DataProcess():
         citys=self.getCityGPSs()
         for row in csv_reader:
             for one in row:
+                print(one)
                 for city in citys:
-                    if(city["city"]==one or city["city"].count("one")>0):
+                    if(city["city"]==one or city["city"].count("one")>0 or one.count(city['city']) >0):
                         distributed=Distributed()
                         distributed.city=city["city"]
                         distributed.longitude =city["longitude"]
@@ -44,7 +45,8 @@ class DataProcess():
                         distributed.province = city["province"]
                         session.add(distributed)
                         break
-                    elif(city['province']==one or city['province'].count("one")>0 or one.count(city['province']) >0):
+
+                    elif(city['province']==one or city['province'].count("one")>0 or one.count(city['province'].replace("省","")) >0):
                         distributed=Distributed()
                         distributed.city=city["city"]
                         distributed.longitude =city["longitude"]
