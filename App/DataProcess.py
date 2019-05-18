@@ -1,6 +1,11 @@
 import csv
 import jieba
 import json
+from Models import Nation,Distributed
+from sqlalchemy import Column,create_engine
+from sqlalchemy.types import *
+from sqlalchemy.orm import sessionmaker
+
 class DataProcess():
     def clean(self):
         CityGPSs=self.getCityGPSs()
@@ -18,6 +23,13 @@ class DataProcess():
         f.close()
 
     def save2Db(self):
+        engine = create_engine("mysql+mysqlconnector://root:wen123@localhost:3306/nationality", encoding='utf-8',
+                               echo=True)
+        # 创建连接数据库引擎
+        DBsession = sessionmaker(bind=engine)
+        session = DBsession()
+
+
         out = open('data/distribute_clean1.csv', 'r', encoding="utf-8")
         csv_reader=csv.reader(out)
         citys=self.getCityGPSs()
@@ -25,7 +37,18 @@ class DataProcess():
             for one in row:
                 for city in citys:
                     if(city["city"]==one or city["city"].count("one")>0):
-                        print(one)
+                        distributed=Distributed()
+                        distributed.city=city["city"]
+                        distributed.longitude =city["longitude"]
+                        distributed.latitude = city["latitude"]
+                        distributed.nationId = row[0]
+                        distributed.province = city["province"]
+                        session.add(distributed)
+            nation = Nation()
+            nation.name = row[0]
+            nation.population=row[1]
+            session.add(nation)
+        session.commit()
 
 
 
@@ -64,3 +87,12 @@ class DataProcess():
 
 if __name__ == '__main__':
     DataProcess().save2Db()
+    #coupon = Nation.query.filter(Coupon.couponId == couponId).first()
+#engine = create_engine("mysql+mysqlconnector://root:wen123@localhost:3306/nationality", encoding='utf-8', echo=True)
+    # 创建连接数据库引擎
+    #DBsession = sessionmaker(bind=engine)
+    #session=DBsession()
+    #nation = Nation()
+    #nation.name = "123"
+    #session.add(nation)
+    #session.commit()
