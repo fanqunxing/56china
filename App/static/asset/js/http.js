@@ -4,12 +4,6 @@ layui.define(function(exports){
 
 // ajax切面
 function ajax(param) {
-  // var form = new FormData()
-  // var data = param.data || {};
-  // debugger;
-  // for (var props in data) {
-  //   form.append(props, data[props]);
-  // }
   return $.ajax({
     url: param.url,
     data: param.data,
