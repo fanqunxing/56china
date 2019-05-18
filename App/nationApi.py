@@ -86,6 +86,7 @@ def spider():
                 db.session.commit()
 
 
+
 @nationBlue.route('/download/<string:fileId>', methods=['GET'])
 def download(fileId):
     if request.method == "GET":
