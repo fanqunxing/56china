@@ -1,4 +1,6 @@
-from flask import Blueprint, jsonify, make_response
+from flask import make_response
+from App.common.ResData import ResData
+from flask import Blueprint, request, jsonify, make_response, session
 from App.Models import Nation,Distributed
 from App.ext import db
 from App.Spider import Spider
@@ -29,7 +31,7 @@ def queryAll():
             distributed.population
             value.append(distributed.longitude)
             value.append(distributed.latitude)
-            value.append('1111')
+            value.append(getPerson(nation, distributeds))
             nationInfo['name'] = distributed.city
             nationInfo['value']=value
             nationInfos.append(nationInfo)
@@ -41,6 +43,11 @@ def queryAll():
     return make_response(jsonify(res))
 
 
+# 计算少数民族人数
+def getPerson(nation, distributeds):
+    population = nation.population
+    num = len(distributeds)
+    return int(population / num)
 
 @nationBlue.route("/nation/createTable", methods=["POST", "GET"])
 def createTable():
