@@ -17,6 +17,7 @@ class Nation(Base):
     id = Column(Integer,primary_key=True) #字段，整形，主键 column是导入的
     name = Column(String(32))
     population = Column(Integer)
+    percent = Column(String(32))
 
 class Distributed(Base):
     __tablename__ = 'distributed' #表名
