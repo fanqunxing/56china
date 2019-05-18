@@ -11,6 +11,11 @@ nationBlue = Blueprint("nation", __name__)
 def init_nationBlue(app):
     app.register_blueprint(blueprint=nationBlue)
 
+
+@nationBlue.route("/nation/queryNationByName", methods=["POST", "GET"])
+def queryNationByName():
+    return 'sss'
+
 @nationBlue.route("/nation/queryAll", methods=["POST", "GET"])
 def queryAll():
     nations = Nation.query.filter().all()
