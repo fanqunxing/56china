@@ -31,7 +31,7 @@ def queryAll():
         nationJson['data']=nationInfos
         nationDistributedInfo.append(nationJson.__str__())
 
-    res={}
+    res={} 
     res['nationDistributedInfo']=nationDistributedInfo
     return res.__str__()
 
