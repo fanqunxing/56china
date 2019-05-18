@@ -41,6 +41,36 @@ class Spider():
 
 
 
+    def getNationDetail(self):
+        engine = create_engine("mysql+mysqlconnector://root:wen123@localhost:3306/nationality", encoding='utf-8',
+                               echo=True)
+        # 创建连接数据库引擎
+        DBsession = sessionmaker(bind=engine)
+        session = DBsession()
+        nations = Nation.query.filter().all()
+        url ="https://jingyan.baidu.com/article/4f7d5712b1c07c1a20192736.html"
+        res=requests.get(url).content.decode("utf-8")
+        resSoup=BeautifulSoup(res)
+        div = resSoup.find_all(name='div', attrs={"class": "exp-content-body"})
+        contents=div[1].contents[0].contents
+        for content in contents:
+            detail=content.contents[1].text
+
+
+            print(detail)
+            try:
+                img=content.contents[2].contents[0].contents[0].contents[0]
+                url=img.attrs["data-src"]
+                print(url)
+            except:
+                print("")
+
+            #imgSoup=BeautifulSoup(img)
+            #imgTag=imgSoup.find_all("img")
+            #textSoup=BeautifulSoup(content.text)
+            #detail=textSoup.find_all(name='div', attrs={"class": "content-list-text"})
+            #img=textSoup.find_all(name='img ')
+
 
 
 
@@ -49,6 +79,6 @@ class Spider():
 
 
 if __name__ == '__main__':
-    Spider().getPopulation()
+    Spider().getNationDetail()
 
 
