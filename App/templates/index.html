@@ -21,30 +21,52 @@
     height: 600px;
   }
 
-  #alert {
+  #alert-content {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 200px;
+    height: 300px;
     left: 0;
     top: 0;
-    /* background: red; */
+    border: solid 5px #ccc;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  #alert {
+    position: relative;
+    width: 200px;
+    height: 300px;
   }
 
-  ;
+  .alert-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .alert-text {
+    position: absolute;
+    bottom: 0;
+    background:rgba(50, 50, 50, 0.5);
+    color: #fff;
+  }
 
   #main {
     position: absolute;
     width: 100%;
   }
 
-  ;
 </style>
 
 <body>
   <div class="x-body">
     <div id="main" style="width: 100%;height:600px;"></div>
-    <div id="alert">
-      <!-- <iframe src="https://baike.baidu.com/item/%E8%97%8F%E6%97%8F/130324?fr=aladdin" frameborder="0"></iframe> -->
+    <div id="alert-content" style="display: none;">
+      <div id="alert">
+        <img class="alert-img" 
+          src="https://imgsa.baidu.com/exp/w=500/sign=f2e6e441fefaaf5184e381bfbc5594ed/960a304e251f95caed35ded1ca177f3e66095290.jpg"
+          alt="">
+        <div class="alert-text">首先这里要感谢一下我的公司，因为公司需求上面的新颖(奇葩)的需求，让我有幸可以学习到一些好玩有趣的前端技术，前端技术中好玩而且比较实用的我想应该要数前端的数据可视化这一方面，目前市面上的数据可视化的框架琳琅满目，例如：D3.js、hightcharts.js</div>
+      </div>
     </div>
   </div>
   <!-- <script src="./static/lib/layui/layui.js" charset="utf-8"></script> -->
@@ -56,9 +78,9 @@
   <script src="./static/json/color.js"></script>
   <!-- <script src="./alert.js"></script> -->
 
-  <!-- <script src="bg/index.js"></script> -->
+  <script src="./static/json/bg.js"></script>
   <script>
-    var eAlert = document.getElementById("alert");
+    var eAlert = document.getElementById("alert-content");
     var nationDistributedInfo = standard.nationDistributedInfo;
     var myChart = echarts.init(document.getElementById('main'));
     var nationDistributedInfoSettingArr = [];
@@ -72,10 +94,10 @@
         dataType: "json",
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
         success: function (response) {
-          debugger;
           param.success(response);
+          // debugger;
           // if (response.code == 1) {
-          //   // layer.msg('请求失败,稍后再试');
+          //   alert('请求失败,稍后再试');
           // } else if (response.code == 0) {
           //   param.success(response.data);
           // }
@@ -87,108 +109,109 @@
     ajax({
       url: '/nation/queryAll',
       success: function(data) {
-        debugger;
-        console.log(data);
+        // debugger;
+        // console.log(data);
+        nationDistributedInfo = data.nationDistributedInfo;
+         myChart.setOption({
+          series: [{
+            type: 'map',
+            map: 'china'
+          }]
+        });
+
+
+        for (var i = 0; i < nationDistributedInfo.length; i++) {
+          nationDistributedInfoSettingArr.push({
+            name: nationDistributedInfo[i].nationName,
+            type: 'effectScatter',
+            coordinateSystem: 'geo',
+            data: nationDistributedInfo[i].data,
+            encode: {
+              value: 2
+            },
+            symbolSize: function (val) {
+              return val[2] / 100;
+            },
+            showEffectOn: 'render',
+            rippleEffect: {
+              brushType: 'stroke'
+            },
+            hoverAnimation: true,
+            label: {
+              normal: {
+                formatter: '{b}',
+                position: 'right',
+                show: false
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: colorMap[nationDistributedInfo[i].nationName],
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
+            },
+            zlevel: 1
+          });
+        }
+
+
+        var legend = {
+          orient: 'vertical', // 'vertical' horizontal
+          x: 'right', // 'center' | 'left' | {number},
+          y: 'top', // 'center' | 'bottom' | {number} top
+          backgroundColor: '#eee',
+          // borderColor: 'rgba(178,34,34,0.8)',
+          borderWidth: 4,
+          padding: 5, // [5, 10, 15, 20]
+          itemGap: 10,
+          // textStyle: { color: 'red'},
+          data: getAllNations()
+        };
+
+        var option = {
+          // backgroundColor: "rgb(64, 74, 89, 0.7)",
+          title: {
+            text: '中华56民族大观',
+            left: 'center', 
+            textStyle: {
+              color: '#fff'
+            }
+          },
+          legend: legend,
+          tooltip: {
+            trigger: 'item',
+            formatter: function (item) {
+              return item.seriesName + '(' + item.name + ')' + item.value[2] + '人';
+            }
+          },
+          geo: {
+            map: 'china',
+            label: {
+              emphasis: {
+                show: true
+              }
+            },
+            roam: true,
+            itemStyle: {
+              normal: {
+                areaColor: '#323c48',
+                borderColor: '#111'
+              },
+              emphasis: {
+                areaColor: '#FFD715'
+              }
+            }
+          },
+          series: nationDistributedInfoSettingArr
+        };
+
+        myChart.setOption(option);
       }
     });
 
 
-    myChart.setOption({
-      series: [{
-        type: 'map',
-        map: 'china'
-      }]
-    });
-
-
-    for (var i = 0; i < nationDistributedInfo.length; i++) {
-      nationDistributedInfoSettingArr.push({
-        name: nationDistributedInfo[i].nationName,
-        type: 'effectScatter',
-        coordinateSystem: 'geo',
-        data: nationDistributedInfo[i].data,
-        encode: {
-          value: 2
-        },
-        symbolSize: function (val) {
-          return val[2] / 10;
-        },
-        showEffectOn: 'render',
-        rippleEffect: {
-          brushType: 'stroke'
-        },
-        hoverAnimation: true,
-        label: {
-          normal: {
-            formatter: '{b}',
-            position: 'right',
-            show: false
-          }
-        },
-        itemStyle: {
-          normal: {
-            color: colorMap[nationDistributedInfo[i].nationName],
-            shadowBlur: 10,
-            shadowColor: '#333'
-          }
-        },
-        zlevel: 1
-      });
-    }
-
-
-    var legend = {
-      orient: 'horizontal', // 'vertical'
-      x: 'right', // 'center' | 'left' | {number},
-      y: 'top', // 'center' | 'bottom' | {number}
-      backgroundColor: '#eee',
-      // borderColor: 'rgba(178,34,34,0.8)',
-      borderWidth: 4,
-      padding: 10, // [5, 10, 15, 20]
-      itemGap: 20,
-      // textStyle: { color: 'red'},
-      data: getAllNations()
-    };
-
-    var option = {
-      // backgroundColor: "rgb(64, 74, 89, 0.7)",
-      title: {
-        text: '中华56民族大观',
-        left: 'center',
-        textStyle: {
-          color: '#fff'
-        }
-      },
-      legend: legend,
-      tooltip: {
-        trigger: 'item',
-        formatter: function (item) {
-          return item.seriesName + '(' + item.name + ')' + item.value[2] + '人';
-        }
-      },
-      geo: {
-        map: 'china',
-        label: {
-          emphasis: {
-            show: true
-          }
-        },
-        roam: true,
-        itemStyle: {
-          normal: {
-            areaColor: '#323c48',
-            borderColor: '#111'
-          },
-          emphasis: {
-            areaColor: '#FFD715'
-          }
-        }
-      },
-      series: nationDistributedInfoSettingArr
-    };
-
-    // 使用刚指定的配置项和数据显示图表。
-    myChart.setOption(option);
+   
 
     myChart.on('click', function (params) { //点击事件
       if (params.componentType === 'series') {
