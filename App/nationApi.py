@@ -2,6 +2,7 @@ from flask import make_response
 from App.common.ResData import ResData
 from flask import Blueprint, request, jsonify, make_response, session
 from App.Models import Nation,Distributed
+from App.ext import db
 
 nationBlue = Blueprint("nation", __name__)
 
@@ -35,11 +36,8 @@ def queryAll():
     return res.__str__()
 
 
-
-
-    nationList = []
-    for one in nationList:
-        nationList.append(one.to_json())
-    flightsJson = {"nationList": nationList}
-    res = make_response(ResData.success(flightsJson))
-    return res
+@nationBlue.route("/nation/createTable", methods=["POST", "GET"])
+def createTable():
+    db.drop_all()
+    db.create_all()
+    return "succ"
