@@ -77,7 +77,7 @@
   <script src="./static/json/color.js"></script>
   <!-- <script src="./alert.js"></script> -->
 
-  <!-- <script src="./static/json/bg.js"></script> -->
+  <script src="./static/json/bg.js"></script>
   <script>
     var eAlert = document.getElementById("alert-content");
     var nationDistributedInfo = standard.nationDistributedInfo;
@@ -250,7 +250,7 @@
           $("#alert-img").show();
           $("#alert-text").text(data.desc);
           $("#alert-text").attr('href', data.descUrl);
-          if (data.img) {
+          if (!data.img) {
             $("#alert-img").hide();
           } else {
             $("#alert-img").attr('src', data.img);
