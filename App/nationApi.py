@@ -12,7 +12,6 @@ nationBlue = Blueprint("nation", __name__)
 import os
 
 
-
 def init_nationBlue(app):
     app.register_blueprint(blueprint=nationBlue)
 
