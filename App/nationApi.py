@@ -22,8 +22,17 @@ def queryNationByName():
     num = len(nations)
     res = {}
     if (num > 0):
-        res["data"] = nations[0].to_json()
-    return make_response(jsonify(res))
+        data={}
+        #res={"data",data}
+        fileId=nations[0].fileId
+        if(fileId is not None):
+            img =  "http://127.0.0.1:5000/download/" + fileId
+            data['img']=img
+        desc=nations[0].desc
+        descUrl="https://baike.baidu.com/item/"+name
+        data['descUrl'] = descUrl
+        data['desc'] = desc
+    return make_response(jsonify(data))
 
 @nationBlue.route("/nation/queryAll", methods=["POST", "GET"])
 def queryAll():
