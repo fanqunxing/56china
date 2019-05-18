@@ -14,9 +14,6 @@ def login():
     userName=request.form.get('userName')
     password=request.form.get('password')
 
-    res.set_cookie('username', userName)
-    return res
-
 
 
 

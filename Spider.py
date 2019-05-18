@@ -2,10 +2,9 @@ import requests
 from bs4 import BeautifulSoup  # bs4模块用来解析爬取下来的网页数据
 from bs4 import Tag
 import jieba
-from sqlalchemy import Column,create_engine
-from sqlalchemy.types import *
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from Models import Nation
+from App.Models import Nation
 import re
 
 
