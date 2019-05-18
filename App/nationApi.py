@@ -36,6 +36,7 @@ def queryAll():
     return res.__str__()
 
 
+
 @nationBlue.route("/nation/createTable", methods=["POST", "GET"])
 def createTable():
     db.drop_all()
