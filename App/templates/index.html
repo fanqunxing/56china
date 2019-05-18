@@ -120,20 +120,20 @@
           type: 'pie',
           radius: '100',
           center: ['200', '50%'],
-          data: (function(nations) {
-            return nations.map(function(item) {
+          data: (function (nations) {
+            return nations.map(function (item) {
               return {
                 name: item.nationName,
-                value: (function(data) {
+                value: (function (data) {
                   var num = 0;
-                  data.forEach(function(i) {
+                  data.forEach(function (i) {
                     num += i.value[2];
                   });
                   return num;
                 })(item.data)
               }
             });
-          })(nationDistributedInfo), 
+          })(nationDistributedInfo),
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
@@ -207,9 +207,10 @@
             trigger: 'item',
             formatter: function (item) {
               if (item.componentSubType == "pie") {
-                return item.name + (item.value / 10000).toFixed(2) + '万人' + '<br>' + '(' + item.percent + '%)';
+                return item.name + (item.value / 10000).toFixed(2) + '万人' + '<br>' + '(' + item.percent +
+                  '%)';
               }
-              return item.seriesName + ' ' + item.name  + '<br>' + (item.value[2] / 10000).toFixed(2) + '万人';
+              return item.seriesName + ' ' + item.name + '<br>' + (item.value[2] / 10000).toFixed(2) + '万人';
             }
           },
           geo: {
@@ -238,6 +239,21 @@
     });
 
 
+    function showAlert(name) {
+      ajax({
+        url: '/nation/queryNationByName',
+        data: {
+          name: name
+        },
+        success: function (res) {
+          console.log(res)
+          var data = res.data;
+          console.log(data);
+        }
+      });
+    }
+
+    // showAlert();
 
 
     myChart.on('click', function (params) { //点击事件
@@ -249,6 +265,7 @@
         eAlert.style.left = offsetX + 'px';
         eAlert.style.top = offsetY + 'px';
         eAlert.style.display = "";
+        showAlert(params.seriesName);
       } else {
         eAlert.style.display = "none";
       }

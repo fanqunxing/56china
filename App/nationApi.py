@@ -17,7 +17,13 @@ def init_nationBlue(app):
 
 @nationBlue.route("/nation/queryNationByName", methods=["POST", "GET"])
 def queryNationByName():
-    return 'sss'
+    name = request.form.get('name')
+    nations = Nation.query.filter(Nation.name == name).all()
+    num = len(nations)
+    res = {}
+    if (num > 0):
+        res["data"] = nations[0].to_json()
+    return make_response(jsonify(res))
 
 @nationBlue.route("/nation/queryAll", methods=["POST", "GET"])
 def queryAll():
