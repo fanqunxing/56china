@@ -207,9 +207,9 @@
             trigger: 'item',
             formatter: function (item) {
               if (item.componentSubType == "pie") {
-                return item.name + (item.value / 10000).toFixed(2) + '万人(' + item.percent + '%)';
+                return item.name + (item.value / 10000).toFixed(2) + '万人' + '<br>' + '(' + item.percent + '%)';
               }
-              return item.seriesName + '(' + item.name + ')' + (item.value[2] / 10000).toFixed(2) + '万人';
+              return item.seriesName + ' ' + item.name  + '<br>' + (item.value[2] / 10000).toFixed(2) + '万人';
             }
           },
           geo: {
