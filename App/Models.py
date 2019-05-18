@@ -12,7 +12,7 @@ class Nation(db.Model):
     name = Column(String(32))
     population = Column(Integer)
     percent = Column(String(32))
-    fileId = Column(String(32))
+    fileId = Column(String(64))
     desc = Column(String(512))
 
     def to_json(self):
