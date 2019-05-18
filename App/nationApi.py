@@ -31,11 +31,11 @@ def queryAll():
             nationInfo['value']=value
             nationInfos.append(nationInfo)
         nationJson['data']=nationInfos
-        nationDistributedInfo.append(nationJson.__str__())
+        nationDistributedInfo.append(nationJson)
 
     res={}
     res['nationDistributedInfo']=nationDistributedInfo
-    return res.__str__()
+    return make_response(jsonify(res))
 
 
 
