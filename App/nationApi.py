@@ -6,6 +6,7 @@ from App.ext import db
 
 nationBlue = Blueprint("nation", __name__)
 
+
 def init_nationBlue(app):
     app.register_blueprint(blueprint=nationBlue)
 
@@ -31,7 +32,7 @@ def queryAll():
         nationJson['data']=nationInfos
         nationDistributedInfo.append(nationJson.__str__())
 
-    res={} 
+    res={}
     res['nationDistributedInfo']=nationDistributedInfo
     return res.__str__()
 
