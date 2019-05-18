@@ -44,10 +44,10 @@ class DataProcess():
                         distributed.nationId = row[0]
                         distributed.province = city["province"]
                         session.add(distributed)
-            nation = Nation()
-            nation.name = row[0]
-            nation.population=row[1]
-            session.add(nation)
+            #nation = Nation()
+            #nation.name = row[0]
+            #nation.population=row[1]
+            #session.add(nation)
         session.commit()
 
 
