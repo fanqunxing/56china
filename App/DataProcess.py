@@ -1,9 +1,8 @@
 import csv
 import jieba
 import json
-from Models import Nation,Distributed
-from sqlalchemy import Column,create_engine
-from sqlalchemy.types import *
+from App.Models import Distributed
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 class DataProcess():

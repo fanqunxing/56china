@@ -19,7 +19,7 @@ class devDBConfig():
         "PASSWORD":"wen123",
         "HOST":"localhost",
         "PORT":"3306",
-        "NAME":"tour"
+        "NAME":"nationality"
     }
 
     SQLALCHEMY_DATABASE_URI=get_db_url(DATABASE)
