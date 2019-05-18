@@ -17,6 +17,7 @@ def queryAll():
         nationJson={}
         nationJson['nationName']=nation.name
         nationInfos = []
+        
         for distributed in distributeds:
             nationInfo={}
             value=[]
