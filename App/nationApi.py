@@ -1,4 +1,4 @@
-from flask import make_response
+from flask import make_response,send_from_directory
 from App.common.ResData import ResData
 from flask import Blueprint, request, jsonify, make_response, session
 from App.Models import Nation,Distributed
@@ -84,3 +84,11 @@ def spider():
                     f.close()
                 db.session.add(nation)
                 db.session.commit()
+
+
+@nationBlue.route('/download/<string:fileId>', methods=['GET'])
+def download(fileId):
+    if request.method == "GET":
+        base_dir = os.path.dirname(__file__)
+        upload_path = os.path.join(base_dir, "data/pic/" )
+        return send_from_directory("data/pic/", fileId+".jpg", as_attachment=True)
