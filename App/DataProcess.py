@@ -43,6 +43,18 @@ class DataProcess():
                         distributed.nationId = row[0]
                         distributed.province = city["province"]
                         session.add(distributed)
+                        break
+                    elif(city['province']==one or city['province'].count("one")>0 or one.count(city['province']) >0):
+                        distributed=Distributed()
+                        distributed.city=city["city"]
+                        distributed.longitude =city["longitude"]
+                        distributed.latitude = city["latitude"]
+                        distributed.nationId = row[0]
+                        distributed.province = city["province"]
+                        session.add(distributed)
+                        break
+
+
             #nation = Nation()
             #nation.name = row[0]
             #nation.population=row[1]
