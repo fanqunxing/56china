@@ -7,6 +7,7 @@ from App.ext import db
 nationBlue = Blueprint("nation", __name__)
 
 
+
 def init_nationBlue(app):
     app.register_blueprint(blueprint=nationBlue)
 
