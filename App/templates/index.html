@@ -105,6 +105,8 @@
     };
 
 
+
+
     ajax({
       url: '/nation/queryAll',
       success: function (data) {
@@ -117,10 +119,11 @@
         });
 
         var nationDistributedInfoSettingArr = [{
-          name: 'name',
+          // name: 'nationName',
           type: 'pie',
           radius: '100',
-          center: ['200', '50%'],
+          // center: ['200', '50%'],
+          center: [document.getElementById('main').offsetWidth - 150, '50%'],
           data: (function (nations) {
             return nations.map(function (item) {
               return {
@@ -134,9 +137,9 @@
                 })(item.data)
               }
             });
-          })(nationDistributedInfo).sort(function(a, b) {
+          })(nationDistributedInfo).sort(function (a, b) {
             return b.value - a.value;
-          }).filter(function(f) {
+          }).filter(function (f) {
             return f.value > 100000;
           }),
           itemStyle: {
@@ -151,7 +154,7 @@
         for (var i = 0; i < nationDistributedInfo.length; i++) {
           nationDistributedInfoSettingArr.push({
             name: nationDistributedInfo[i].nationName,
-            type: 'effectScatter',
+            type: 'effectScatter', // scatter effectScatter
             coordinateSystem: 'geo',
             data: nationDistributedInfo[i].data,
             encode: {
@@ -182,24 +185,49 @@
             zlevel: 1
           });
 
-        }
+        };
+        
+        // console.log(nationDistributedInfoSettingArr);
+        var province = {
+          // name: '2011全国GDP分布',
+          type: 'map',
+          mapType: 'china',
+          mapLocation: {
+            x: 'left'
+          },
+          roam: true,
+          selectedMode: 'multiple',
+          itemStyle: {
+            normal: {
+              areaColor: '#323c48',
+              borderColor: '#fff'
+            },
+            emphasis: { label: { show: true } }
+          },
+          // itemStyle: {
+          //   normal: { label: { show: true } },
+          //   emphasis: { label: { show: true } }
+          // },
+          data: getAllProvinceNations(nationDistributedInfo)
+        };
 
 
         var legend = {
           orient: 'vertical', // 'vertical' horizontal
-          x: 'right', // 'center' | 'left' | {number},
-          y: 'top', // 'center' | 'bottom' | {number} top
-          backgroundColor: '#eee',
+          x: '10', // 'center' | 'left' | {number}, right
+          y: '30', // 'center' | 'bottom' | {number} top
+          // backgroundColor: '#eee',
           // borderColor: 'rgba(178,34,34,0.8)',
-          borderWidth: 4,
-          padding: 5, // [5, 10, 15, 20]
-          itemGap: 10,
-          // textStyle: { color: 'red'},
+          // borderWidth: 4,
+          // padding: 5, // [5, 10, 15, 20]
+          // itemGap: 10,
+          textStyle: {
+            color: '#fff'
+          },
           data: getAllNations()
         };
 
         var option = {
-          // backgroundColor: "rgb(64, 74, 89, 0.7)",
           title: {
             text: '中华少数民族分布',
             left: 'center',
@@ -214,8 +242,17 @@
               if (item.componentSubType == "pie") {
                 return item.name + (item.value / 10000).toFixed(2) + '万人' + '<br>' + '(' + item.percent +
                   '%)';
+              } else if (item.componentSubType == "map") {
+                if (item.data.value) {
+                  return item.data.name + ' 少数民族' +  (item.data.value / 10000).toFixed(2) + '万人<br>' + item.data.nations.join('、');
+                } else {
+                  return item.data.name;
+                }
+              } else if (item.componentSubType == "effectScatter") {
+                return item.seriesName + ' ' + item.name + '<br>' + (item.value[2] / 10000).toFixed(2) + '万人';
+              } else {
+                return item.data.name;
               }
-              return item.seriesName + ' ' + item.name + '<br>' + (item.value[2] / 10000).toFixed(2) + '万人';
             }
           },
           geo: {
@@ -229,14 +266,14 @@
             itemStyle: {
               normal: {
                 areaColor: '#323c48',
-                borderColor: '#111'
+                borderColor: '#fff'
               },
               emphasis: {
-                areaColor: '#FFD715'
+                // areaColor: '#FFD715'
               }
-            }
+            },
           },
-          series: nationDistributedInfoSettingArr
+          series: [province].concat(nationDistributedInfoSettingArr)
         };
 
         myChart.setOption(option);

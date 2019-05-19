@@ -34,6 +34,7 @@ def queryNationByName():
         data['desc'] = desc
     return make_response(jsonify(data))
 
+
 @nationBlue.route("/nation/queryAll", methods=["POST", "GET"])
 def queryAll():
     nations = Nation.query.filter().all()
@@ -46,12 +47,13 @@ def queryAll():
         for distributed in distributeds:
             nationInfo={}
             value=[]
-            distributed.population
+            # distributed.population
             value.append(distributed.longitude)
             value.append(distributed.latitude)
             value.append(getPerson(nation, distributeds))
             nationInfo['name'] = distributed.city
             nationInfo['value']=value
+            nationInfo['province'] = distributed.province
             nationInfos.append(nationInfo)
         nationJson['data']=nationInfos
         nationDistributedInfo.append(nationJson)

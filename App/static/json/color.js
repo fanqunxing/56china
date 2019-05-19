@@ -1,10 +1,10 @@
 var colorMap = {
   '汉族': '#FFF68F',
   '满族': '#FFE4E1',
-  '蒙古族':'#FFC1C1',
+  '蒙古族': '#FFC1C1',
   '回族': '#FFA54F',
   '藏族': '#FF7F50',
-  '维吾尔族':'#FF4500',
+  '维吾尔族': '#FF4500',
   '苗族': '#FDF5E6',
   '彝族': '#F7F7F7',
   '壮族': '#F0FFFF',
@@ -57,12 +57,54 @@ var colorMap = {
   '基诺族': '#006400'
 };
 
-window.colorMap = colorMap;
+var province = ["北京", "天津", "上海", "重庆", "河北", "山西", "辽宁", "吉林", "黑龙江", "江苏", "浙江", "安徽", "福建", "江西", "山东", "河南", "湖北", "湖南", "广东", "海南", "四川", "贵州", "云南", "陕西", "甘肃", "青海", "内蒙古", "广西", "西藏", "宁夏", "新疆", "香港", "澳门", "台湾"];
 
-window.getAllNations = function() {
+window.getAllNations = function () {
   var res = [];
-  for (var key in  colorMap) {
+  for (var key in colorMap) {
     res.push(key);
   };
   return res;
+}
+
+
+window.getAllProvinceNations = function (nationDistributedInfoSettingArr) {
+  var res = [];
+  // console.log(nationDistributedInfoSettingArr)
+  var nArr = nationDistributedInfoSettingArr.concat([]);
+  var allNations = [];
+  nArr.forEach(function(ele) {
+    ele.data.forEach(function (item) {
+      item.nationName = ele.nationName;
+    });
+    allNations = allNations.concat(ele.data);
+  });
+  // console.log(allNations);
+  for (var i = 0; i < province.length; i++) {
+    var provinceInfo = {};
+    // console.log(province[i])
+
+    var num = 0;
+    var areas = [];
+    var nations = [];
+    allNations.forEach(function(item) {
+      // console.log(item);
+      if (item.province.indexOf(province[i]) > -1) {
+        num += item.value[2];
+        areas.push(item.name);
+        if (nations.indexOf(item.nationName) == -1) {
+          nations.push(item.nationName);
+        }
+      };
+    });
+    // res.push(key);
+    provinceInfo.value = num;
+    provinceInfo.name = province[i];
+    provinceInfo.areas = areas;
+    provinceInfo.nations = nations;
+    res.push(provinceInfo);
+  };
+  // console.log(res);
+  return res;
+
 }
