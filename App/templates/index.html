@@ -117,6 +117,7 @@
         });
 
         var nationDistributedInfoSettingArr = [{
+          name: 'name',
           type: 'pie',
           radius: '100',
           center: ['200', '50%'],
@@ -133,7 +134,11 @@
                 })(item.data)
               }
             });
-          })(nationDistributedInfo),
+          })(nationDistributedInfo).sort(function(a, b) {
+            return b.value - a.value;
+          }).filter(function(f) {
+            return f.value > 100000;
+          }),
           itemStyle: {
             emphasis: {
               shadowBlur: 10,
@@ -250,11 +255,13 @@
           $("#alert-img").show();
           $("#alert-text").text(data.desc);
           $("#alert-text").attr('href', data.descUrl);
-          if (!data.img) {
-            $("#alert-img").hide();
-          } else {
-            $("#alert-img").attr('src', data.img);
-          }
+          // if (!data.img) {
+          //   $("#alert-img").hide();
+          // } else {
+          //   $("#alert-img").attr('src', data.img);
+          // }
+          setTimeout()
+          $("#alert-img").attr('src', data.img);
         }
       });
     }
