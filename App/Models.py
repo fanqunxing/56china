@@ -14,6 +14,7 @@ class Nation(db.Model):
     percent = Column(String(32))
     fileId = Column(String(64))
     desc = Column(String(512))
+    html = Column(String(134217728))
 
     def to_json(self):
         dict = self.__dict__

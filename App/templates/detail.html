@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>56-china</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+  body {
+    background-color: #f5f5d5;
+  }
+
+  .content {
+    width: 900px;
+    margin: 0 auto;
+    line-height: 36px;
+  }
+
+  .title {
+    width: 900px;
+    margin: 20px auto;
+    text-align: center;
+  }
+</style>
+
+<body>
+  <h1 id="title" class="title"></h1>
+  <div id="content" class="content">
+
+  </div>
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+
+    function getQueryString(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+      var r = window.location.search.substr(1).match(reg);
+      if (r != null) return decodeURIComponent(r[2]);
+      return null; 
+    }
+
+    function ajax(param) {
+      return $.ajax({
+        url: param.url,
+        data: param.data,
+        type: 'POST',
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded;charset=UTF-8",
+        success: function (response) {
+          param.success(response);
+        }
+      });
+    };
+
+    var name = getQueryString("name");
+
+    ajax({
+      url: '/nation/queryNationHtmlByName',
+      data: {
+        name: name
+      },
+      success: function (data) {
+        // <h1></h1>
+        $("#content").html(data.html);
+        $("#title").html(data.name + "简介");
+      }
+    });
+  </script>
+</body>
+
+</html>

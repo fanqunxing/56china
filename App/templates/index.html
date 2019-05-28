@@ -90,11 +90,6 @@
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
         success: function (response) {
           param.success(response);
-          // if (response.code == 1) {
-          //   alert('请求失败,稍后再试');
-          // } else if (response.code == 0) {
-          //   param.success(response.data);
-          // }
         }
       });
     };
@@ -285,10 +280,14 @@
         },
         success: function (res) {
           var data = res;
+          console.log(res);
+          $("#alert-img").attr('src', '');
           $("#alert-img").show();
           $("#alert-text").text(data.desc);
           $("#alert-text").attr('href', data.descUrl);
-          $("#alert-img").attr('src', data.img);
+          setTimeout(function (params) {
+            $("#alert-img").attr('src', data.img);
+          }, 100);
         }
       });
     };
